@@ -6,16 +6,108 @@
     <title>Sign Up</title>
 
     <style>
-        button{
+         body {
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 400px;
+            width: 90%;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 1.8em;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-field {
+            margin: 10px 0;
+        }
+
+        .input-field input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
             cursor: pointer;
-    text-decoration: none; 
-    padding: 8px 16px; 
-    background-color: #af0909; 
-    color: white; 
-    border-radius: 4px;
-    box-shadow: none;
-    height: 3em;
-}</style>
+            padding: 8px 16px;
+            background-color: #af0909;
+            color: white;
+            border-radius: 4px;
+            height: 3em;
+            width: 100%;
+            font-size: 16px;
+            border: none;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #d01010;
+        }
+
+        .links a {
+            display: block;
+            margin-top: 20px;
+            color: #af0909;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+
+        .form-box p {
+            font-size: 12px;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        @media screen and (max-width: 480px) {
+            h1 {
+                font-size: 1.5em;
+            }
+
+            button {
+                font-size: 14px;
+                height: 2.8em;
+            }
+
+            .form-box p {
+                font-size: 11px;
+            }
+
+            .links a {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+        
+    </style>
 </head>
 <body>
     <div class="container">

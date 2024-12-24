@@ -6,8 +6,86 @@
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="">
 
-    <style>
-        .table-container {
+    <style>body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+    text-align: center;
+}
+
+h1 {
+    margin-top: 20px;
+}
+
+button {
+    cursor: pointer;
+    padding: 8px 16px;
+    background-color: #af0909;
+    color: white;
+    border-radius: 4px;
+    height: 3em;
+    font-size: 16px;
+    border: none;
+    box-shadow: none;
+    text-decoration: none;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+#overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.pop {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    z-index: 1000;
+}
+
+#pop_stats {
+    width: 80%;
+    max-width: 800px;
+}
+
+.input-field {
+    margin: 10px 0;
+}
+
+.input-field input {
+    width: 90%;
+    padding: 8px;
+    margin: 5px 0;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.table-container {
     margin: 20px 0;
     max-height: 400px;
     overflow-y: auto;
@@ -34,51 +112,19 @@
 #booksTable tr:nth-child(even) {
     background-color: #f9f9f9;
 }
-button{
-    cursor: pointer;
-    text-decoration: none; 
-    padding: 8px 16px; 
-    background-color: #af0909; 
-    color: white; 
-    border-radius: 4px;
-    box-shadow: none;
-    height: 3em;
-}
-#pop_stats {
-    width: 80%;
-    max-width: 800px;
-}
-        .pop{
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 300px;
-            background-color: white;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            padding: 20px;
-            z-index: 1000;
-        }
 
-        #overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-        }
+.errormessage {
+    color: red;
+    margin-top: 10px;
+    display: none;
+}
 
-        .errormessage {
-            color: red;
-            margin-top: 10px;
-            display: none;
-        }
+@media screen and (max-width: 600px) {
+    .pop {
+        width: 90%;
+    }
+}
+
     </style>
 </head>
 <body>
