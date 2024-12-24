@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="">
+
+    <style>
+        .table-container {
+    margin: 20px 0;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+#booksTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+#booksTable th, #booksTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+#booksTable th {
+    background-color: #f4f4f4;
+    position: sticky;
+    top: 0;
+}
+
+#booksTable tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+button{
+    cursor: pointer;
+    text-decoration: none; 
+    padding: 8px 16px; 
+    background-color: #af0909; 
+    color: white; 
+    border-radius: 4px;
+    box-shadow: none;
+    height: 3em;
+}
+#pop_stats {
+    width: 80%;
+    max-width: 800px;
+}
+        .pop{
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            z-index: 1000;
+        }
+
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .errormessage {
+            color: red;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Admin Dashboard</h1>
+
+
+
+    <button id="openpop_addnew">Add new book</button>
+    <div id="overlay"></div>
+    <div id="pop_addnew" class="pop">
+        <form id="addBookForm">
+            <div class="input-group">
+                <div class="input-field">
+                    <input type="text" placeholder="Book Title" id="bookTitle" name="bookTitle" required>
+                </div>
+                <div class="input-field">
+                    <input type="number" placeholder="Book ID" id="bookID" name="bookID" required>
+                </div>
+                <div>
+                    <button type="submit">Submit</button>
+                </div>
+            </div>
+        </form>
+        <button id="closepop_addnew">Close</button>
+        <div id="errorMessage" class="errormessage"></div>
+    </div>
+
+    <!-- ISSUE BOOK -->
+    <button id="openpop_issue">Issue book</button>
+
+    <div id="pop_issue" class="pop">
+        <form id="issueForm">
+            <div class="input-group">
+                <input type="text" placeholder="Username" id="usernameIssue" name="usernameIssue">
+                <input type="text" placeholder="Book Title" id="bookTitleIssue" name="bookTitleIssue">
+                <input type="number" placeholder="Book ID" id="bookIDIssue" name="bookIDIssue">
+                <input type="date" placeholder="Issue Date" id="dateIssue" name="dateIssue">
+            </div>
+            <button type="submit">Issue Book</button>
+        </form>
+        <button id="closepop_issue">Close</button>
+        <div id="errorMessage1" class="errormessage"></div>
+    </div>
+
+    <!-- RETURN BOOK -->
+    <button id="openpop_return">Return book</button>
+
+    <div id="pop_return" class="pop">
+        <form id="returnForm">
+            <div class="input-group">
+                <input type="text" placeholder="Username" id="usernameReturn" name="usernameReturn">
+                <input type="text" placeholder="Book Title" id="bookTitleReturn" name="bookTitleReturn">
+                <input type="number" placeholder="Book ID" id="bookIDReturn" name="bookIDReturn">
+            </div>
+            <button type="submit">Return Book</button>
+        </form>
+        <button id="closepop_return">Close</button>
+        <div id="errorMessage2" class="errormessage"></div>
+    </div>
+
+    
+    <button id="openpop_stats">Statistics</button>
+
+    <div id="pop_stats" class="pop">
+    <h2>Library Statistics</h2>
+    <div class="table-container">
+        <table id="booksTable">
+            <thead>
+                <tr>
+                    <th>Book Title</th>
+                    <th>Book ID</th>
+                    <th>Status</th>
+                    <th>Issued To</th>
+                    <th>Issue Date</th>
+                </tr>
+            </thead>
+            <tbody id="booksTableBody">
+            </tbody>
+        </table>
+    </div>
+    <button id="closepop_stats">Close</button>
+
+    
+    
+</div>
+<button><a href="/logout" style="text-decoration: none; color: white;  ">Logout</a>
+   </button> <script>
+        const openpop_addnewButton = document.getElementById('openpop_addnew');
+        const closepop_addnewButton = document.getElementById('closepop_addnew');
+        const pop_addnew = document.getElementById('pop_addnew');
+        const overlay = document.getElementById('overlay');
+        const errorMessage = document.getElementById('errorMessage');
+        const errorMessage1 = document.getElementById('errorMessage1');
+
+        // Open Add New Book Pop-up
+        openpop_addnewButton.addEventListener('click', () => {
+            pop_addnew.style.display = 'block';
+            overlay.style.display = 'block';
+        });
+
+        // Close Add New Book Pop-up
+        closepop_addnewButton.addEventListener('click', () => {
+            pop_addnew.style.display = 'none';
+            overlay.style.display = 'none';
+            errorMessage.style.display = 'none';
+        });
+
+        // Add New Book Form Submission
+        document.getElementById('addBookForm').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+            const bookTitle = document.getElementById('bookTitle').value;
+            const bookID = document.getElementById('bookID').value;
+            errorMessage.style.display = 'none';
+
+            fetch('/addnew', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    bookTitle: bookTitle,
+                    bookID: bookID
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Book added successfully!');
+                    pop_addnew.style.display = 'none';
+                    overlay.style.display = 'none';
+                } else {
+                    return response.text().then(text => {
+                        errorMessage.textContent = 'Error occurred: ' + text;
+                        errorMessage.style.display = 'block';
+                    });
+                }
+            })
+            .catch(error => {
+                errorMessage.textContent = 'Error occurred: ' + error.message;
+                errorMessage.style.display = 'block';
+            });
+        });
+
+        // Open Issue Book Pop-up
+        const openpop_issueButton = document.getElementById('openpop_issue');
+        const closepop_issueButton = document.getElementById('closepop_issue');
+        const pop_issue = document.getElementById('pop_issue');
+
+        openpop_issueButton.addEventListener('click', () => {
+            pop_issue.style.display = 'block';
+            overlay.style.display = 'block';
+        });
+
+        // Close Issue Book Pop-up
+        closepop_issueButton.addEventListener('click', () => {
+            pop_issue.style.display = 'none';
+            overlay.style.display = 'none';
+            errorMessage.style.display = 'none'; 
+        });
+
+         document.getElementById('issueForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const username = document.getElementById('usernameIssue').value;
+    const bookTitle = document.getElementById('bookTitleIssue').value;
+    const bookID = document.getElementById('bookIDIssue').value;
+    const date = document.getElementById('dateIssue').value;
+
+    console.log('Submitting book issue:', { username, bookTitle, bookID ,date});
+
+    fetch('/issue', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            username: username,
+            bookTitle: bookTitle,
+            bookID: bookID,
+            date: date
+        })
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            return response.json().then(error => {
+                throw new Error(error.message || 'Unknown error occurred');
+            });
+        }
+    })
+    .then(data => {
+        alert('Book issued successfully!');
+        pop_issue.style.display = 'none';
+        overlay.style.display = 'none';
+    })
+    .catch(error => {
+        errorMessage1.textContent = 'Error occurred: ' + error.message;
+        errorMessage1.style.display = 'block';
+    });
+});
+
+
+
+
+        const openpop_returnButton = document.getElementById('openpop_return');
+        const closepop_returnButton = document.getElementById('closepop_return');
+        const pop_return = document.getElementById('pop_return');
+
+        openpop_returnButton.addEventListener('click', () => {
+            pop_return.style.display = 'block';
+            overlay.style.display = 'block';
+        });
+
+        
+        closepop_returnButton.addEventListener('click', () => {
+            pop_return.style.display = 'none';
+            overlay.style.display = 'none';
+            errorMessage2.style.display = 'none'; 
+        });
+
+        document.getElementById('returnForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const usernameReturn = document.getElementById('usernameReturn').value;
+    const bookTitleReturn = document.getElementById('bookTitleReturn').value;
+    const bookIDReturn = document.getElementById('bookIDReturn').value;
+
+    console.log('Returning book:', { usernameReturn, bookTitleReturn, bookIDReturn });
+
+    fetch('/return', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            usernameReturn: usernameReturn,
+            bookTitleReturn: bookTitleReturn,
+            bookIDReturn: bookIDReturn
+        })
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            return response.json().then(error => {
+                throw new Error(error.message || 'Unknown error occurred');
+            });
+        }
+    })
+    .then(data => {
+        alert(`Book returned successfully! Due date was ${data.dueDate}, and it is ${data.daysPastDue} days past due.`);
+        pop_return.style.display = 'none';
+        overlay.style.display = 'none';
+    })
+    .catch(error => {
+        alert('Error returning book: ' + error.message);
+    });
+});
+
+
+        const openpop_statsButton = document.getElementById('openpop_stats');
+const closepop_statsButton = document.getElementById('closepop_stats');
+const pop_stats = document.getElementById('pop_stats');
+
+// Function to load and display books data
+function loadBooksData() {
+    fetch('/books')
+        .then(response => response.json())
+        .then(books => {
+            const tableBody = document.getElementById('booksTableBody');
+            tableBody.innerHTML = ''; // Clear existing data
+
+            books.forEach(book => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${book.bookTitle}</td>
+                    <td>${book.bookID}</td>
+                    <td>${book.issueStatus ? 'Issued' : 'Available'}</td>
+                    <td>${book.username || '-'}</td>
+                    <td>${book.date ? new Date(book.date).toLocaleDateString() : '-'}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        })
+        .catch(error => {
+            console.error('Error loading books data:', error);
+            alert('Error loading books data. Please try again.');
+        });
+}
+
+// Open statistics popup
+openpop_statsButton.addEventListener('click', () => {
+    pop_stats.style.display = 'block';
+    overlay.style.display = 'block';
+    loadBooksData(); // Load the data when opening the popup
+});
+
+// Close statistics popup
+closepop_statsButton.addEventListener('click', () => {
+    pop_stats.style.display = 'none';
+    overlay.style.display = 'none';
+});
+    </script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+
+    <style>
+        button{
+            cursor: pointer;
+    text-decoration: none; 
+    padding: 8px 16px; 
+    background-color: #af0909; 
+    color: white; 
+    border-radius: 4px;
+    box-shadow: none;
+    height: 3em;
+}</style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-box">
+            <h1>Sign Up</h1>
+            <form action="/signup" method="POST">
+                <div class="input-group">
+                    <div class="input-field">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" placeholder="Username" id="username" name="username">
+                    </div>
+                    <div class="input-field">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" placeholder="E-mail" id="email" name="email">
+                    </div>
+                    <div class="input-field">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" placeholder="Password" id="password" name="password">
+                    </div>
+                    <div>
+                        <button type="submit">Sign Up</button>
+                    </div>
+                </div>
+            </form>
+            <div class="links">
+                <a href="/login">Already have an ID? Login!</a>
+            </div>
+        </div>
+    </div>
+
+    {{!-- <form action="/signup" method="POST">
+    <input type="text" name="name" placeholder="Name" required>
+    <input type="password" name="password" placeholder="Password" required>
+    <button type="submit">Sign Up</button> --}}
+</form>
+</body>
+</html>

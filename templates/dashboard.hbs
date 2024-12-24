@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="popup_style.css">
+    <style>
+        .pop{
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            z-index: 1000;
+        }
+
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+button{
+    cursor: pointer;
+    text-decoration: none; 
+    padding: 8px 16px; 
+    background-color: #af0909; 
+    color: white; 
+    border-radius: 4px;
+    box-shadow: none;
+    height: 3em;
+}
+
+    </style>
+</head>
+<body>
+    <h1>Welcome to Student's Dashboard!</h1>
+    
+
+    <button id="openpop_checkIssue">Check Issue Status</button>
+
+        <div id="overlay"></div>
+
+        <div id="pop_checkIssue" class="pop">
+            <div class="input-field">
+                <input type="text" placeholder="Book Title" id="bookTitle">
+            </div>
+            <div class="input-field">
+                <input type="number" placeholder="Book ID" id="bookID">
+            </div>
+            <button id="closepop_checkIssue">Close</button>
+        </div>
+
+
+
+    <button id="openpop_checkDue"  >Check Due Date</button>
+
+    <div id="overlay"></div>
+
+        <div id="pop_checkDue" class="pop">
+            <div class="input-field">
+                <input type="text" placeholder="Book Titleee" id="bookTitle">
+            </div>
+            <div class="input-field">
+                <input type="number" placeholder="Book ID" id="bookID">
+            </div>
+            <button id="closepop_checkDue">Close</button>
+        </div>
+                    <button><a href="/logout" style="text-decoration: none; color: white;">Logout</a>
+                    </button>
+    <script>
+        
+
+
+        const openpop_checkIssueButton = document.getElementById('openpop_checkIssue');
+        const closepop_checkIssueButton = document.getElementById('closepop_checkIssue');
+        const pop_checkIssue = document.getElementById('pop_checkIssue');
+        const overlay = document.getElementById('overlay');
+
+        const closepop_checkDueButton = document.getElementById('closepop_checkDue');
+        const openpop_checkDueButton = document.getElementById('openpop_checkDue');
+        const pop_checkDue = document.getElementById('pop_checkDue');
+
+        openpop_checkIssueButton.addEventListener('click', () => {
+            pop_checkIssue.style.display = 'block';
+            overlay.style.display = 'block';
+        });
+
+        closepop_checkIssueButton.addEventListener('click', () => {
+            pop_checkIssue.style.display = 'none';
+            overlay.style.display = 'none';
+        });
+
+
+        openpop_checkDueButton.addEventListener('click', () => {
+            pop_checkDue.style.display = 'block';
+            overlay.style.display = 'block';
+        });
+
+        closepop_checkDueButton.addEventListener('click', () => {
+            pop_checkDue.style.display = 'none';
+            overlay.style.display = 'none';
+        });
+
+
+    </script>
+</body>
+</html>
